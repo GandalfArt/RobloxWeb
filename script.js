@@ -151,7 +151,6 @@ const translations = {
 /* ===== GAME DATA ===== */
 let gamesData = null;
 const VISIBLE_COUNT = 12;
-const MIN_VISITS = 100000;
 let showingAll = false;
 
 /* ===== HELPERS ===== */
@@ -302,11 +301,11 @@ function renderGames() {
   if (!gamesData) return;
 
   const grid = document.getElementById("gamesGrid");
-  const filteredGames = gamesData.games.filter((g) => g.visits >= MIN_VISITS);
+  const games = gamesData.games;
 
   grid.innerHTML = "";
 
-  filteredGames.forEach((game, i) => {
+  games.forEach((game, i) => {
     const card = document.createElement("a");
     card.className = "game-card" + (i >= VISIBLE_COUNT ? " hidden-card" : "");
     card.href = game.gameUrl;
@@ -342,7 +341,7 @@ function renderGames() {
 
   // Show/hide toggle
   const moreBtn = document.getElementById("portfolioMore");
-  if (filteredGames.length <= VISIBLE_COUNT) {
+  if (games.length <= VISIBLE_COUNT) {
     moreBtn.style.display = "none";
   }
 
