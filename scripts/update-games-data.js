@@ -73,18 +73,18 @@ async function getGameDetails(universeIds) {
 async function getThumbnails(universeIds) {
   if (universeIds.length === 0) return {};
   const map = {};
-  for (let i = 0; i < universeIds.length; i += 100) {
-    const batch = universeIds.slice(i, i + 100);
+  for (let i = 0; i < universeIds.length; i += 30) {
+    const batch = universeIds.slice(i, i + 30);
     const url = `https://thumbnails.roblox.com/v1/games/multiget/thumbnails?universeIds=${batch.join(",")}&countPerUniverse=1&size=768x432&format=Png`;
     const res = await fetch(url);
     if (res.data) {
       for (const item of res.data) {
-        if (item.thumbnails && item.thumbnails.length > 0) {
-          map[item.targetId] = item.thumbnails[0].imageUrl;
+        if (item.thumbnails && item.thumbnails.length > 0 && item.thumbnails[0].imageUrl) {
+          map[item.universeId] = item.thumbnails[0].imageUrl;
         }
       }
     }
-    if (i + 100 < universeIds.length) await sleep(500);
+    if (i + 30 < universeIds.length) await sleep(500);
   }
   return map;
 }
@@ -123,12 +123,16 @@ async function main() {
   let totalVisits = 0;
   let totalPlaying = 0;
 
+  const MIN_VISITS = 10000; // Skip tiny/test games
+
   for (const g of allGames) {
     const d = detailsMap[g.id];
     if (!d) continue;
 
     const visits = d.visits || 0;
     const playing = d.playing || 0;
+    if (visits < MIN_VISITS) continue;
+
     totalVisits += visits;
     totalPlaying += playing;
 
