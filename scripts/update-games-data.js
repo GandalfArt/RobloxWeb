@@ -125,6 +125,15 @@ async function main() {
 
   const MIN_VISITS = 1000000; // Only show games with 1M+ visits
 
+  // Count totals across ALL games
+  for (const g of allGames) {
+    const d = detailsMap[g.id];
+    if (!d) continue;
+    totalVisits += d.visits || 0;
+    totalPlaying += d.playing || 0;
+  }
+
+  // Only display games with 1M+ visits
   for (const g of allGames) {
     const d = detailsMap[g.id];
     if (!d) continue;
@@ -132,9 +141,6 @@ async function main() {
     const visits = d.visits || 0;
     const playing = d.playing || 0;
     if (visits < MIN_VISITS) continue;
-
-    totalVisits += visits;
-    totalPlaying += playing;
 
     games.push({
       name: d.name,
