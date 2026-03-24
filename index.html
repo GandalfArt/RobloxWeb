@@ -154,12 +154,71 @@
     <div class="container">
       <div class="contact-card" data-animate="fade-up">
         <div class="contact-glow"></div>
-        <h2 class="contact-title" data-i18n="contactTitle">Готовы к сотрудничеству?</h2>
-        <p class="contact-desc" data-i18n="contactDesc">Свяжитесь с нами для обсуждения проектов, коллабораций или любых вопросов о наших играх.</p>
-        <a href="https://discord.gg/HREvzvTR9T" class="btn btn-primary btn-lg">
-          <span data-i18n="contactCta">Discrod канал</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
-        </a>
+        <div class="contact-grid">
+          <!-- Left: Form -->
+          <div class="contact-form-side">
+            <span class="contact-tag" data-i18n="contactTag">ОСТАВИТЬ ЗАЯВКУ</span>
+            <h2 class="contact-title" data-i18n="contactTitle">Связаться с нами</h2>
+            <p class="contact-desc" data-i18n="contactDesc">Отправьте ссылку на игру и расскажите, чем мы можем помочь — трафик, монетизация, live ops или просто деньги. Мы изучим и скажем, что думаем.</p>
+            <form id="contactForm" class="contact-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label data-i18n="formName">Имя</label>
+                  <input type="text" name="name" placeholder="" data-i18n-placeholder="formNamePh" required>
+                </div>
+                <div class="form-group">
+                  <label data-i18n="formDiscord">Discord</label>
+                  <input type="text" name="discord" placeholder="" data-i18n-placeholder="formDiscordPh">
+                </div>
+              </div>
+              <div class="form-group">
+                <label data-i18n="formMessage">Сообщение</label>
+                <textarea name="message" rows="4" placeholder="" data-i18n-placeholder="formMessagePh" required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary btn-lg contact-submit">
+                <span data-i18n="contactCta">Отправить заявку</span>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+              </button>
+              <p class="form-hint" data-i18n="formHint">Или напишите в <a href="https://discord.gg/HREvzvTR9T" target="_blank">Discord</a> ↗</p>
+              <p class="form-footer" data-i18n="formFooter">Без обязательств · Ответ в течение 48 часов</p>
+            </form>
+          </div>
+          <!-- Right: What to expect -->
+          <div class="contact-expect-side">
+            <span class="contact-tag" data-i18n="expectTag">ЧЕГО ОЖИДАТЬ</span>
+            <h2 class="contact-title" data-i18n="expectTitle">Честный разговор, реальное дело.</h2>
+            <div class="expect-steps">
+              <div class="expect-step">
+                <span class="step-num">01</span>
+                <div>
+                  <h4 data-i18n="step1Title">Мы изучаем вашу игру</h4>
+                  <p data-i18n="step1Desc">DAU, ретеншн, потенциал монетизации — мы проверяем всё быстро. Обычно в течение 48 часов.</p>
+                </div>
+              </div>
+              <div class="expect-step">
+                <span class="step-num">02</span>
+                <div>
+                  <h4 data-i18n="step2Title">Делимся мнением</h4>
+                  <p data-i18n="step2Desc">Вы получите чёткий разбор — что работает, что нет, и где точки роста.</p>
+                </div>
+              </div>
+              <div class="expect-step">
+                <span class="step-num">03</span>
+                <div>
+                  <h4 data-i18n="step3Title">Честный разговор</h4>
+                  <p data-i18n="step3Desc">Мы говорим прямо — что видим и есть ли совпадение интересов.</p>
+                </div>
+              </div>
+              <div class="expect-step">
+                <span class="step-num">04</span>
+                <div>
+                  <h4 data-i18n="step4Title">Структура партнёрства</h4>
+                  <p data-i18n="step4Desc">Если есть совпадение — мы предложим подходящие условия.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </section>

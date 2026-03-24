@@ -98,10 +98,30 @@ const translations = {
     aboutText2:
       "Каждый наш проект создаётся с вниманием к деталям, уникальным геймплеем и высоким качеством.",
     groupsTitle: "Наши группы",
-    contactTitle: "Готовы к сотрудничеству?",
-    contactDesc:
-      "Свяжитесь с нами для обсуждения проектов, коллабораций или любых вопросов о наших играх.",
-    contactCta: "Discord канал",
+    contactTag: "ОСТАВИТЬ ЗАЯВКУ",
+    contactTitle: "Связаться с нами",
+    contactDesc: "Отправьте ссылку на игру и расскажите, чем мы можем помочь — трафик, монетизация, live ops или просто деньги. Мы изучим и скажем, что думаем.",
+    contactCta: "Отправить заявку",
+    formName: "Имя",
+    formNamePh: "Ваше имя",
+    formDiscord: "Discord",
+    formDiscordPh: "Ваш Discord тег",
+    formMessage: "Сообщение",
+    formMessagePh: "Расскажите о вашей игре — что строите, где застряли, что ищете...",
+    formHint: "Или напишите в <a href=\"https://discord.gg/HREvzvTR9T\" target=\"_blank\">Discord</a> ↗",
+    formFooter: "Без обязательств · Ответ в течение 48 часов",
+    formSuccess: "Заявка отправлена!",
+    formError: "Ошибка отправки. Попробуйте позже.",
+    expectTag: "ЧЕГО ОЖИДАТЬ",
+    expectTitle: "Честный разговор, реальное дело.",
+    step1Title: "Мы изучаем вашу игру",
+    step1Desc: "DAU, ретеншн, потенциал монетизации — мы проверяем всё быстро. Обычно в течение 48 часов.",
+    step2Title: "Делимся мнением",
+    step2Desc: "Вы получите чёткий разбор — что работает, что нет, и где точки роста.",
+    step3Title: "Честный разговор",
+    step3Desc: "Мы говорим прямо — что видим и есть ли совпадение интересов.",
+    step4Title: "Структура партнёрства",
+    step4Desc: "Если есть совпадение — мы предложим подходящие условия.",
     footerDesc: "Команда, создающая игры, в которые играют миллионы.",
     footerNav: "Навигация",
     footerContact: "Контакты",
@@ -140,10 +160,30 @@ const translations = {
     aboutText2:
       "Each project is crafted with attention to detail, unique gameplay, and high quality.",
     groupsTitle: "Our Studios",
-    contactTitle: "Ready to Collaborate?",
-    contactDesc:
-      "Get in touch to discuss projects, collaborations, or any questions about our games.",
-    contactCta: "Discord channel",
+    contactTag: "LEAVE A REQUEST",
+    contactTitle: "Get in touch",
+    contactDesc: "Send us your game link and tell us where you need help — traffic, monetization, live ops, or just money. We'll review it and tell you exactly what we see.",
+    contactCta: "Send request",
+    formName: "Name",
+    formNamePh: "Your name",
+    formDiscord: "Discord",
+    formDiscordPh: "Your Discord tag",
+    formMessage: "Message",
+    formMessagePh: "Tell us about your game — what you're building, where you're stuck, what you're looking for...",
+    formHint: "Or text on <a href=\"https://discord.gg/HREvzvTR9T\" target=\"_blank\">Discord</a> ↗",
+    formFooter: "No commitment · Response within 48 hours",
+    formSuccess: "Request sent!",
+    formError: "Failed to send. Try again later.",
+    expectTag: "WHAT TO EXPECT",
+    expectTitle: "Real talk, real deal.",
+    step1Title: "We review your game",
+    step1Desc: "DAU, retention, monetization potential — we review everything quickly. Usually within 48 hours.",
+    step2Title: "We share our view",
+    step2Desc: "You get a clear breakdown of what's working, what's not, and where the growth is.",
+    step3Title: "Honest conversation",
+    step3Desc: "We tell you exactly what we see and whether there's a fit.",
+    step4Title: "Partnership structure",
+    step4Desc: "If there's a fit, we put the right offer on the table.",
     footerDesc: "A Roblox studio creating games played by millions.",
     footerNav: "Navigation",
     footerContact: "Contact",
@@ -187,10 +227,20 @@ function setLanguage(lang) {
   document.querySelectorAll("[data-i18n]").forEach((el) => {
     const key = el.getAttribute("data-i18n");
     if (translations[lang][key]) {
-      el.textContent = translations[lang][key];
+      if (key === "formHint") {
+        el.innerHTML = translations[lang][key];
+      } else {
+        el.textContent = translations[lang][key];
+      }
       if (el.hasAttribute("data-text")) {
         el.setAttribute("data-text", translations[lang][key]);
       }
+    }
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach((el) => {
+    const key = el.getAttribute("data-i18n-placeholder");
+    if (translations[lang][key]) {
+      el.placeholder = translations[lang][key];
     }
   });
   // Update dynamic about text with real numbers
@@ -482,6 +532,47 @@ async function init() {
 
   // Copy Discord Tag
   initClipboard();
+
+  // Contact form → Telegram
+  initContactForm();
+}
+
+function initContactForm() {
+  const form = document.getElementById("contactForm");
+  if (!form) return;
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const btn = form.querySelector(".contact-submit span");
+    const origText = btn.textContent;
+    btn.textContent = "...";
+
+    const name = form.name.value.trim();
+    const discord = form.discord.value.trim();
+    const message = form.message.value.trim();
+
+    const text = `📩 Новая заявка с сайта\n\n👤 Имя: ${name}\n💬 Discord: ${discord || "—"}\n\n📝 Сообщение:\n${message}`;
+
+    try {
+      const res = await fetch("https://api.telegram.org/bot8795143865:AAHDkD6JwkrecMJC31J5GWU52fi1lz3Qjzo/sendMessage", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: 772073166, text, parse_mode: "HTML" }),
+      });
+      if (res.ok) {
+        btn.textContent = translations[currentLang].formSuccess;
+        btn.style.color = "#72e095";
+        form.reset();
+        setTimeout(() => { btn.textContent = origText; btn.style.color = ""; }, 3000);
+      } else {
+        throw new Error("send failed");
+      }
+    } catch {
+      btn.textContent = translations[currentLang].formError;
+      btn.style.color = "#ff6b6b";
+      setTimeout(() => { btn.textContent = origText; btn.style.color = ""; }, 3000);
+    }
+  });
 }
 
 document.addEventListener("DOMContentLoaded", init);
