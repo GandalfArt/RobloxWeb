@@ -390,7 +390,7 @@ function renderGames() {
           </div>
           ${game.peakCCU ? `<div class="game-peak">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-            ${formatNumber(game.peakCCU)}
+            ${formatNumber(game.peakCCU)} CCU
           </div>` : ''}
         </div>
         <div class="game-group">${game.groupName}</div>
