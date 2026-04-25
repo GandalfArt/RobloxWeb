@@ -499,7 +499,7 @@ function initClipboard() {
 async function init() {
   // Load data
   try {
-    const res = await fetch("games-data.json");
+    const res = await fetch("games-data.json?v=" + Date.now(), { cache: "no-store" });
     gamesData = await res.json();
   } catch (e) {
     console.error("Failed to load game data:", e);
